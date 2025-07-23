@@ -1,0 +1,41 @@
+:root {
+	--foreground: oklch(0.15 0.01 270); /* Rich dark */
+	--background: oklch(0.99 0.002 270); /* Pure white with hint */
+	--primary: oklch(0.55 0.18 262); /* Rich blue */
+	--secondary: oklch(0.6 0.14 285); /* Purple-blue */
+	--success: oklch(0.7 0.16 142); /* Fresh green */
+	--warning: oklch(0.8 0.15 75); /* Warm amber */
+	--error: oklch(0.65 0.2 25); /* Vibrant red */
+	--muted: oklch(0.55 0.03 270); /* Neutral gray */
+
+	@variant dark {
+		--foreground: oklch(0.95 0.01 270); /* Near white with warmth */
+		--background: oklch(0.05 0.002 270); /* Deep dark with blue hint */
+		--primary: oklch(0.7 0.15 262); /* Brighter blue for contrast */
+		--secondary: oklch(0.72 0.12 285); /* Lighter purple-blue */
+		--success: oklch(0.75 0.14 142); /* Brighter green */
+		--warning: oklch(0.85 0.13 75); /* Brighter amber */
+		--error: oklch(0.7 0.18 25); /* Softer red */
+		--muted: oklch(0.45 0.02 270); /* Muted gray for dark mode */
+	}
+}
+
+@theme {
+	--color-primary: var(--primary);
+	--color-secondary: var(--secondary);
+	--color-success: var(--success);
+	--color-error: var(--error);
+	--color-warning: var(--warning);
+	--color-foreground: var(--foreground);
+	--color-background: var(--background);
+	--color-muted: var(--muted);
+
+	/* Typography system */
+	--font-sans:
+		Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", source-sans-pro,
+		sans-serif;
+	--font-serif:
+		Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif", "Sitka Small",
+		serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+}

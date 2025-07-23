@@ -1,0 +1,7 @@
+.accordion {
+	@apply border border-muted rounded-lg;
+
+	&[aria-expanded="true"] {
+		@apply border-primary;
+	}
+}

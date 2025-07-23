@@ -1,0 +1,23 @@
+.badge {
+	@apply inline-flex items-center px-2 py-1 rounded text-xs font-medium;
+
+	&.badge-primary {
+		@apply bg-primary text-white;
+	}
+
+	&.badge-secondary {
+		@apply bg-secondary text-white;
+	}
+
+	&.badge-success {
+		@apply bg-success text-white;
+	}
+
+	&.badge-warning {
+		@apply bg-warning text-white;
+	}
+
+	&.badge-error {
+		@apply bg-error text-white;
+	}
+}

@@ -1,0 +1,40 @@
+/* Custom utilities with @utility directive - must be at root level */
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+/* Screen reader only utility */
+.sr-only {
+	@apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+	clip: rect(0, 0, 0, 0);
+}
+
+/* Reduced motion utility */
+.motion-safe {
+	@media (prefers-reduced-motion: reduce) {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+	.contrast-more {
+		border-width: 2px;
+	}
+}
+
+/* Accessibility utilities */
+.skip-link {
+	@apply absolute -top-10 left-2 bg-primary text-white px-3 py-2 rounded;
+	@apply focus:top-2 transition-all;
+}
+
+.focus-ring {
+	@apply focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2;
+}

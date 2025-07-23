@@ -1,0 +1,15 @@
+.card {
+	@apply bg-background border border-muted rounded-lg shadow-sm p-6;
+
+	.card-header {
+		@apply mb-4;
+
+		h3 {
+			@apply text-xl font-semibold text-foreground m-0;
+		}
+	}
+
+	.card-content {
+		@apply text-muted;
+	}
+}
