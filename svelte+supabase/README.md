@@ -66,23 +66,6 @@ A modern SvelteKit application with Supabase authentication using magic links, s
 ### 🚧 Work in Progress
 - **Account update form** - Profile updates currently don't work (needs database schema setup)
 
-## Next Steps
-
-1. **Set up profiles table in Supabase:**
-   ```sql
-   CREATE TABLE profiles (
-     id uuid references auth.users on delete cascade,
-     full_name text,
-     username text unique,
-     website text,
-     updated_at timestamp with time zone,
-     primary key (id)
-   );
-   ```
-
-2. **Enable Row Level Security** and create policies for profile access
-3. **Test profile update functionality** once database is configured
-
 ## Development Notes
 
 - All `.svelte` files use Svelte 5 runes (`$props()`, `$state()`)
@@ -101,3 +84,23 @@ Here, you can change the default redirect URL, and add Redirect URLs.
 - error code `email_address_not_authorized`: Supabase's SMTP service allows sending emails only to predefined recipients, see https://supabase.com/docs/guides/auth/auth-smtp.
   This can be avoided if a private SMTP server is configured
 - Authentication flow does not complete: Redirect URLs require a trailing slash, e.g. `https://example.com/` instead of `https://example.com`
+- `pnpx supabase db push --linked` fails with "must be owner of table ...": see [cli - supabase db push as postgres user causes "ERROR: must be owner of table" · supabase · Discussion #6326](https://github.com/orgs/supabase/discussions/6326)
+
+### Useful commands
+
+```bash
+# pull the docker images locally
+pnpx supabase start
+# in case you forget the local credentials, you can display them again with this command
+pnpx supabase status
+# to link a local project to an existing supabase instance
+pnpx supabase link
+# to create an initial migration from the existing supabase instance
+pnpx supabase db diff -f initial_structure --linked
+# to create a dump from your local data
+pnpx supabase db dump --data-only -f supabase/seed.sql
+# apply changes locally
+pnpx supabase db reset
+# apply changes to remote supabase instance
+pnpx supabase db push --linked
+```
