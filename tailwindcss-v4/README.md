@@ -27,7 +27,11 @@
 
 ### **app.css Template**
 ```css
-@import "tailwindcss";
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme' layer(theme);
+@import 'tailwindcss/preflight' layer(base);
+@import 'tailwindcss/utilities' layer(utilities);
 
 @import "./theme.css" layer(theme);
 @import "./base.css" layer(base);
