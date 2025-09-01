@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @plugin "daisyui";
 @plugin '@tailwindcss/forms';
+@plugin "@tailwindcss/typography";
 
 html {
 	@apply scroll-smooth;
@@ -17,4 +18,8 @@ body {
 	min-height: 100vh;
 	grid-template-columns: 1fr;
 	overscroll-behavior: contain; /* Prevent scroll chaining */
+}
+
+main {
+  @apply p-4;
 }
