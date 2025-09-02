@@ -1,10 +1,12 @@
 <script lang="ts">
 	import MultiSelectTags from '$lib/components/MultiSelectTags.svelte';
+	import SelectTag from '$lib/components/SelectTag.svelte';
 	import { defaultTags, type TagData } from '$lib/data/defaultTags';
 	import { SvelteSet } from 'svelte/reactivity';
 
 	let tags = $state<TagData[]>([...defaultTags]);
 	const selectedTags = new SvelteSet<string>();
+	let selectedTag = $state<string | null>(null);
 
 	let tagName = $state('');
 	let parentId = $state('');
@@ -67,6 +69,15 @@
 		</div>
 	</div>
 
-	<!-- Tag Selection -->
-	<MultiSelectTags {tags} {selectedTags}></MultiSelectTags>
+	<!-- Tag Selection Components -->
+	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+		<div class="space-y-2">
+			<h3 class="text-lg font-semibold">Multi-Select Tags</h3>
+			<MultiSelectTags {tags} {selectedTags}></MultiSelectTags>
+		</div>
+		<div class="space-y-2">
+			<h3 class="text-lg font-semibold">Single-Select Tag</h3>
+			<SelectTag {tags} bind:selectedTag></SelectTag>
+		</div>
+	</div>
 </div>
