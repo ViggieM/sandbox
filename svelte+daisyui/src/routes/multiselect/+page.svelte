@@ -1,7 +1,7 @@
 <script lang="ts">
-	import MultiSelectTags from '$lib/components/MultiSelectTags.svelte';
-	import SelectTag from '$lib/components/SelectTag.svelte';
-	import { defaultTags, type TagData } from '$lib/data/defaultTags';
+	import MultiSelectTags from './MultiSelectTags.svelte';
+	import SelectTag from './SelectTag.svelte';
+	import { defaultTags, type TagData } from './defaultTags';
 	import { SvelteSet } from 'svelte/reactivity';
 
 	let tags = $state<TagData[]>([...defaultTags]);

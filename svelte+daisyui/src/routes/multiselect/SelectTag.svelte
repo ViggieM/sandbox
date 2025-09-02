@@ -4,7 +4,7 @@
 
 	import { SvelteMap } from 'svelte/reactivity';
 
-	import type { TagData } from '$lib/data/defaultTags';
+	import type { TagData } from './defaultTags';
 
 	// Reactive render tree for template
 	interface RenderNode {

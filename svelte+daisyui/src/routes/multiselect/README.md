@@ -1,0 +1,1 @@
+- Components are saved inside the routes/multiselect folder for isolation within the sandbox project. In a real svelte project they would probably live inside the `lib/components` folder.
