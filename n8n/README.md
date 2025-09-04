@@ -139,20 +139,45 @@ export N8N_BLOCK_ENV_ACCESS_IN_NODE=false
 - ✅ JSON structure preserved through all nodes
 
 ### Session 2: Core Concepts
-- **Status**: ⭕ Not Started
-- **Planned Topics**:
-  - Triggers vs regular nodes
-  - Advanced expressions and functions
-  - Error handling and debugging
-  - Conditional logic (IF nodes)
+- **Status**: 🟢 Complete
+- **Topics Covered**:
+  - [x] Triggers vs regular nodes
+  - [x] Advanced expressions and functions
+  - [x] Error handling and debugging
+  - [x] Conditional logic (IF/Switch nodes)
 
-### Session 3: Expressions & Functions
+#### Key Workflows Built 🛠️
+1. **"Daily Weather Alert"** - Schedule Trigger + HTTP Request + Code transformation
+2. **"Expression Testing Lab"** - Advanced expressions with time, conditionals, metadata
+3. **"Error Handling Practice"** - Intentional failures + "Continue on Fail" + error detection
+4. **"Smart Task Processor"** - Multi-path conditional logic with Switch node
+
+**Major Learnings**:
+- **Trigger Types**: Manual (testing), Schedule (automation), Webhook (real-time), Poll (monitoring)
+- **Advanced Expressions**: `{{ $now }}`, `{{ $workflow.name }}`, conditional logic `{{ condition ? 'true' : 'false' }}`
+- **Error Handling**: "Continue on Fail" setting, `{{ $json.error }}` detection, graceful degradation
+- **Conditional Logic**: IF nodes for simple branching, **Switch nodes for multiple conditions** (more efficient)
+- **Workflow Patterns**: Trigger → Process → Branch → Merge → Output
+
+**Key Built-in Variables Mastered**:
+```javascript
+{{ $now }}                    // Current timestamp with Luxon formatting
+{{ $today }}                  // Today's date
+{{ $workflow.id }}            // Workflow metadata access
+{{ $node["NodeName"].json }}  // Cross-node data reference
+{{ $itemIndex }}              // Loop iteration tracking
+{{ Math.random() * 100 }}     // JavaScript functions in expressions
+```
+
+**Optimization Discovery**: Independently chose Switch node over multiple IF nodes for cleaner multi-condition workflows ⚡
+
+### Session 3: Real-World Integrations
 - **Status**: ⭕ Not Started
 - **Planned Topics**:
-  - n8n expression syntax
-  - Built-in functions (`$now`, `$json`, etc.)
-  - Data manipulation
-  - Conditional logic
+  - Webhook triggers and API endpoints
+  - Service integrations (Gmail, Slack, databases)
+  - Data transformation patterns
+  - Background automation (activated workflows)
 
 ### Session 4: Practical Examples
 - **Status**: ⭕ Not Started
