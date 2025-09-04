@@ -14,5 +14,8 @@
 		<li class="list-row relative">
 			<a href="/multiselect"><span class="absolute inset-0"></span>Multiselect</a>
 		</li>
+		<li class="list-row relative">
+			<a href="/theme-switch"><span class="absolute inset-0"></span>Theme Switch</a>
+		</li>
 	</ul>
 </div>

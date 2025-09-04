@@ -2,8 +2,13 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import { page } from '$app/state';
+	import { initializeTheme } from '$lib/stores/theme.svelte';
 
 	let { children } = $props();
+
+	$effect(() => {
+		initializeTheme();
+	});
 </script>
 
 <svelte:head>

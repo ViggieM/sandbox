@@ -196,12 +196,10 @@
 			<h4 class="mb-2 text-sm font-medium">Selected Tags:</h4>
 			<div class="flex flex-wrap gap-1">
 				{#each getSelectedTagsDisplay() as tag (tag.id)}
-          <!-- .tag-badge is defined in app.css -->>
+					<!-- .tag-badge is defined in app.css -->>
 					<div class="tag-badge">
 						{tag.name}
-						<button onclick={() => toggleTag(tag.id)}>
-							×
-						</button>
+						<button onclick={() => toggleTag(tag.id)}> × </button>
 					</div>
 				{/each}
 				<button

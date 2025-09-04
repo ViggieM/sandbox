@@ -146,9 +146,7 @@
 				<div class="flex flex-wrap gap-1">
 					<div class="tag-badge">
 						{selectedTagObj.name}
-						<button onclick={() => selectTag(selectedTag!)}>
-							×
-						</button>
+						<button onclick={() => selectTag(selectedTag!)}> × </button>
 					</div>
 					<button
 						class="btn ml-2 btn-ghost btn-xs"

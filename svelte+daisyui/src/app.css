@@ -1,6 +1,7 @@
 @import 'tailwindcss';
-@plugin "daisyui";
-@plugin '@tailwindcss/forms';
+@plugin "daisyui" {
+	themes: all;
+}
 @plugin "@tailwindcss/typography";
 
 html {
@@ -25,10 +26,10 @@ main {
 }
 
 .tag-badge {
-  @apply badge gap-1 badge-primary pr-0 border-0 cursor-pointer;
+	@apply badge cursor-pointer gap-1 border-0 pr-0 badge-primary;
 
-  button {
-    @apply btn btn-xs btn-primary shadow-none ml-0.5 border-0;
-    border-radius: 0 var(--radius-selector) var(--radius-selector) 0;
-  }
+	button {
+		@apply btn ml-0.5 border-0 shadow-none btn-xs btn-primary;
+		border-radius: 0 var(--radius-selector) var(--radius-selector) 0;
+	}
 }
