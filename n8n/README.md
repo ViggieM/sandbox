@@ -67,8 +67,8 @@ n8n start
   - [x] Installation methods
   - [x] Installation troubleshooting
   - [x] Environment setup
-  - [ ] First workflow creation
-  - [ ] Understanding the UI
+  - [x] First workflow creation
+  - [x] Understanding the UI
 
 #### Installation Issues & Solutions ⚠️
 **Problem**: When installing n8n globally via pnpm, encountered SQLite dependency errors:
@@ -102,13 +102,49 @@ export N8N_RUNNERS_ENABLED=true
 export N8N_BLOCK_ENV_ACCESS_IN_NODE=false
 ```
 
+#### First Workflow Experience ✨
+**Workflow Built**: "Hello World with Data Processing"
+- **Nodes Used**: Manual Trigger → Edit Fields → Code → HTTP Request
+- **Duration**: ~20 minutes
+- **Test API**: httpbin.org/post (perfect for testing HTTP requests)
+
+**Key Learnings**:
+- **Node Canvas**: Intuitive drag-and-drop interface for building workflows
+- **Data Flow**: Information flows left-to-right between connected nodes as JSON objects
+- **Expression Syntax**: `{{ $json }}` passes all data from previous node; `{{ $json.propertyName }}` for specific fields
+- **Manual Triggers**: Perfect for testing workflows before adding automatic triggers
+- **Code Nodes**: Powerful for data transformation using JavaScript/Python
+- **HTTP Requests**: Easy integration with external APIs and services
+- **Real-time Testing**: Can execute individual nodes or entire workflows instantly
+
+**Data Transformation Example**:
+```javascript
+// Input: { customerName: "John Doe", customerEmail: "john.doe@example.com", orderTotal: "99.99" }
+// Code Node Processing:
+{
+  processedAt: "2025-09-04T08:42:41.901Z",
+  customerInfo: {
+    name: "JOHN DOE",           // Converted to uppercase
+    email: "john.doe@example.com",
+    orderValue: 99.99           // Converted string to number
+  },
+  summary: "Customer John Doe has an order worth $99.99"
+}
+```
+
+**Success Indicators**:
+- ✅ Workflow executed without errors
+- ✅ Data transformations worked as expected
+- ✅ HTTP request successfully sent and received response
+- ✅ JSON structure preserved through all nodes
+
 ### Session 2: Core Concepts
 - **Status**: ⭕ Not Started
 - **Planned Topics**:
-  - Nodes and connections
   - Triggers vs regular nodes
-  - Data flow and transformation
-  - Workflow execution
+  - Advanced expressions and functions
+  - Error handling and debugging
+  - Conditional logic (IF nodes)
 
 ### Session 3: Expressions & Functions
 - **Status**: ⭕ Not Started
