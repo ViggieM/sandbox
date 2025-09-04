@@ -61,12 +61,46 @@ n8n start
 ## 📚 Learning Progress
 
 ### Session 1: Getting Started
-- **Status**: 🟡 In Progress
+- **Status**: 🟢 Complete
 - **Topics Covered**:
   - [x] What is n8n?
   - [x] Installation methods
+  - [x] Installation troubleshooting
+  - [x] Environment setup
   - [ ] First workflow creation
   - [ ] Understanding the UI
+
+#### Installation Issues & Solutions ⚠️
+**Problem**: When installing n8n globally via pnpm, encountered SQLite dependency errors:
+```
+SQLite package has not been found installed. Try to install it: npm install sqlite3 --save
+```
+
+**Root Cause**: pnpm's global installation doesn't properly handle sqlite3 dependency resolution for n8n.
+
+**Solution Steps**:
+1. **Uninstall pnpm version**: `pnpm uninstall -g n8n`
+2. **Install via npm instead**: `npm install n8n -g` (proper dependency handling)
+3. **Fix config permissions**: `chmod 600 ~/.n8n/config` (was 0664, too permissive)
+4. **Successfully started**: n8n now accessible at http://localhost:5678
+
+**Key Learnings**:
+- npm handles n8n dependencies better than pnpm for global installations
+- n8n requires strict config file permissions (600) for security
+- Version 1.109.2 includes comprehensive database migration system
+- Several environment variables have deprecation warnings for future versions
+
+**Environment Variable Recommendations**:
+```bash
+# For better SQLite performance
+export DB_SQLITE_POOL_SIZE=5
+
+# Enable task runners (will be default in future)
+export N8N_RUNNERS_ENABLED=true
+
+# Control environment variable access in nodes
+export N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+```
 
 ### Session 2: Core Concepts
 - **Status**: ⭕ Not Started
