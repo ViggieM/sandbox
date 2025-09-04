@@ -144,9 +144,9 @@
 			<div class="mt-4">
 				<h4 class="mb-2 text-sm font-medium">Selected Tag:</h4>
 				<div class="flex flex-wrap gap-1">
-					<div class="badge gap-1 badge-primary">
+					<div class="tag-badge">
 						{selectedTagObj.name}
-						<button class="btn btn-circle btn-ghost btn-xs" onclick={() => selectTag(selectedTag!)}>
+						<button onclick={() => selectTag(selectedTag!)}>
 							×
 						</button>
 					</div>

@@ -23,3 +23,12 @@ body {
 main {
 	@apply p-4;
 }
+
+.tag-badge {
+  @apply badge gap-1 badge-primary pr-0 border-0 cursor-pointer;
+
+  button {
+    @apply btn btn-xs btn-primary shadow-none ml-0.5 border-0;
+    border-radius: 0 var(--radius-selector) var(--radius-selector) 0;
+  }
+}

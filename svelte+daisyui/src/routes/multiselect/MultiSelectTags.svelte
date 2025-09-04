@@ -1,7 +1,6 @@
 <script lang="ts">
 	// ABOUTME: Multi-level hierarchical tag selection component using Svelte 5 runes
 	// ABOUTME: Optimized database-driven architecture with O(1) lookups and reactive maps
-
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
 	import type { TagData } from './defaultTags';
@@ -197,9 +196,10 @@
 			<h4 class="mb-2 text-sm font-medium">Selected Tags:</h4>
 			<div class="flex flex-wrap gap-1">
 				{#each getSelectedTagsDisplay() as tag (tag.id)}
-					<div class="badge gap-1 badge-primary">
+          <!-- .tag-badge is defined in app.css -->>
+					<div class="tag-badge">
 						{tag.name}
-						<button class="btn btn-circle btn-ghost btn-xs" onclick={() => toggleTag(tag.id)}>
+						<button onclick={() => toggleTag(tag.id)}>
 							×
 						</button>
 					</div>
