@@ -20,5 +20,8 @@
 		<li class="list-row relative">
 			<a href="/responsive-form"><span class="absolute inset-0"></span>Responsive Form</a>
 		</li>
+		<li class="list-row relative">
+			<a href="/toasts"><span class="absolute inset-0"></span>Toasts</a>
+		</li>
 	</ul>
 </div>
