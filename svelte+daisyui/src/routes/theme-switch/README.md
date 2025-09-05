@@ -1,6 +1,6 @@
 # Cookie-Based Theme Switching in SvelteKit with DaisyUI
 
-*A comprehensive guide to implementing persistent theme switching without the flash of wrong theme (FOWT)*
+_A comprehensive guide to implementing persistent theme switching without the flash of wrong theme (FOWT)_
 
 Theme switching is a crucial UX feature in modern web applications, but implementing it correctly can be tricky. Users expect themes to persist across sessions and, more importantly, they shouldn't see a flash of the wrong theme when the page loads. This guide walks through implementing a robust cookie-based theme switching system in SvelteKit with DaisyUI.
 
@@ -32,12 +32,20 @@ First, we establish type-safe theme constants:
 
 ```typescript
 export const themes = [
-	'light', 'dark', 'cupcake', 'bumblebee', 'emerald',
-	'corporate', 'synthwave', 'retro', 'cyberpunk', 
-	'valentine', 'halloween'
+	'light',
+	'dark',
+	'cupcake',
+	'bumblebee',
+	'emerald',
+	'corporate',
+	'synthwave',
+	'retro',
+	'cyberpunk',
+	'valentine',
+	'halloween'
 ] as const;
 
-export type Theme = typeof themes[number];
+export type Theme = (typeof themes)[number];
 export const DEFAULT_THEME: Theme = 'light';
 
 export function isValidTheme(theme: string): theme is Theme {
@@ -70,11 +78,11 @@ import { isValidTheme } from '$lib/themes';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const theme = event.cookies.get('theme');
-	
+
 	if (!theme || !isValidTheme(theme)) {
 		return resolve(event);
 	}
-	
+
 	return resolve(event, {
 		transformPageChunk: ({ html }) => {
 			return html.replace('data-theme=""', `data-theme="${theme}"`);
@@ -90,7 +98,7 @@ Add the theme attribute that will be replaced server-side:
 **File: `src/app.html`**
 
 ```html
-<html lang="en" data-theme="">
+<html lang="en" data-theme=""></html>
 ```
 
 ## Step 5: Reactive Theme Store
@@ -110,16 +118,16 @@ export function getTheme(): Theme {
 
 export function setTheme(newTheme: Theme): void {
 	if (!isValidTheme(newTheme)) return;
-	
+
 	currentTheme = newTheme;
 
 	if (typeof window !== 'undefined') {
 		// Update DOM immediately
 		document.documentElement.setAttribute('data-theme', newTheme);
-		
+
 		// Save to localStorage
 		window.localStorage.setItem('theme', newTheme);
-		
+
 		// Save to cookie (1 year expiration)
 		const oneYear = 60 * 60 * 24 * 365;
 		document.cookie = `theme=${newTheme}; max-age=${oneYear}; path=/; SameSite=Strict;`;
@@ -152,9 +160,11 @@ A clean dropdown selector:
 </script>
 
 <div class="form-control">
-	<select class="select select-bordered select-sm" 
-	        value={currentTheme} 
-	        onchange={handleThemeChange}>
+	<select
+		class="select-bordered select select-sm"
+		value={currentTheme}
+		onchange={handleThemeChange}
+	>
 		{#each themes as theme (theme)}
 			<option value={theme}>
 				{theme.charAt(0).toUpperCase() + theme.slice(1)}
@@ -187,6 +197,7 @@ Create a dedicated route to demonstrate the feature:
 **File: `src/routes/theme-switch/+page.svelte`**
 
 The route includes:
+
 - Theme selector dropdown
 - Live color previews
 - All available themes as buttons
@@ -199,21 +210,26 @@ The route includes:
 ✅ **Type Safety** - Full TypeScript support with theme validation  
 ✅ **Modern Svelte** - Uses Svelte 5 runes instead of legacy patterns  
 ✅ **11 DaisyUI Themes** - All themes available: light, dark, cyberpunk, etc.  
-✅ **Instant Switching** - No page reload required  
+✅ **Instant Switching** - No page reload required
 
 ## Technical Highlights
 
 ### Server-Side Theme Injection
+
 The `hooks.server.ts` file is crucial - it reads the theme cookie and injects it into the HTML before sending to the client, eliminating FOWT.
 
 ### Svelte 5 Runes
+
 We use modern Svelte 5 patterns:
+
 - `$state()` for reactive variables
-- `$derived()` for computed values  
+- `$derived()` for computed values
 - `$effect()` for side effects
 
 ### Cookie Strategy
+
 Themes are saved with:
+
 - **1 year expiration** - Long-term persistence
 - **SameSite=Strict** - Security best practice
 - **Dual persistence** - Both cookies (server) and localStorage (client)
@@ -221,6 +237,7 @@ Themes are saved with:
 ## Testing the Implementation
 
 The implementation was tested with Puppeteer to verify:
+
 1. Theme switching works across all 11 themes
 2. Visual changes apply instantly
 3. Current theme indicator updates correctly
@@ -234,4 +251,4 @@ The modular approach makes it easy to extend with additional themes or customize
 
 ---
 
-*Implementation inspired by [Scott Spence's approach](https://scottspence.com/posts/cookie-based-theme-selection-in-sveltekit-with-daisyui) and [DaisyUI theme documentation](https://daisyui.com/docs/themes).*
+_Implementation inspired by [Scott Spence's approach](https://scottspence.com/posts/cookie-based-theme-selection-in-sveltekit-with-daisyui) and [DaisyUI theme documentation](https://daisyui.com/docs/themes)._

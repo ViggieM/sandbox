@@ -17,5 +17,8 @@
 		<li class="list-row relative">
 			<a href="/theme-switch"><span class="absolute inset-0"></span>Theme Switch</a>
 		</li>
+		<li class="list-row relative">
+			<a href="/responsive-form"><span class="absolute inset-0"></span>Responsive Form</a>
+		</li>
 	</ul>
 </div>

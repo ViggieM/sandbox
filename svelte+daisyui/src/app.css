@@ -4,32 +4,44 @@
 }
 @plugin "@tailwindcss/typography";
 
-html {
-	@apply scroll-smooth;
-	scrollbar-gutter: stable; /* Prevent layout shift */
+@layer base {
+	html {
+		@apply scroll-smooth;
+		scrollbar-gutter: stable; /* Prevent layout shift */
 
-	::selection {
-		@apply bg-secondary/50;
+		::selection {
+			@apply bg-secondary/50;
+		}
+	}
+
+	body {
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		min-height: 100vh;
+		grid-template-columns: 1fr;
+		overscroll-behavior: contain; /* Prevent scroll chaining */
+	}
+
+	header {
+		@apply flex items-center justify-center bg-primary p-4 text-neutral-content;
+	}
+
+	main {
+		@apply p-4;
+	}
+
+	footer {
+		@apply flex items-center justify-center bg-secondary p-4 text-neutral;
 	}
 }
 
-body {
-	display: grid;
-	grid-template-rows: auto 1fr auto;
-	min-height: 100vh;
-	grid-template-columns: 1fr;
-	overscroll-behavior: contain; /* Prevent scroll chaining */
-}
+@layer components {
+	.tag-badge {
+		@apply badge cursor-pointer gap-1 border-0 pr-0 badge-primary;
 
-main {
-	@apply p-4;
-}
-
-.tag-badge {
-	@apply badge cursor-pointer gap-1 border-0 pr-0 badge-primary;
-
-	button {
-		@apply btn ml-0.5 border-0 shadow-none btn-xs btn-primary;
-		border-radius: 0 var(--radius-selector) var(--radius-selector) 0;
+		button {
+			@apply btn ml-0.5 border-0 shadow-none btn-xs btn-primary;
+			border-radius: 0 var(--radius-selector) var(--radius-selector) 0;
+		}
 	}
 }

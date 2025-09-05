@@ -15,8 +15,8 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<header class="flex items-center justify-center bg-primary p-4 text-neutral-content">Header</header>
+<header>Header</header>
 <main class={page.data?.mainClassName}>
 	{@render children?.()}
 </main>
-<footer class="flex items-center justify-center bg-secondary p-4 text-neutral">Footer</footer>
+<footer class={page.data?.footerClassName}>Footer</footer>
