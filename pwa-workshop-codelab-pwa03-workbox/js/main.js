@@ -74,4 +74,8 @@ window.addEventListener('DOMContentLoaded', async () => {
       editor.setTheme(mode);
     }
   )
+
+  // Set up install prompt
+  const { Install} = await import('./lib/install.js');
+  new Install(document.querySelector('#install'));
 });
