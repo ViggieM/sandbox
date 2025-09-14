@@ -15,6 +15,7 @@
  */
 
 import {openDB} from "idb";
+import {wrap} from "comlink";
 
 // Register the service worker
 if ('serviceWorker' in navigator) {
@@ -49,6 +50,11 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   })
 
+  const worker = new SharedWorker(new URL('./worker.js', import.meta.url), {
+    type: 'module',
+  })
+  const compiler = wrap(worker.port)
+
   // Set up the editor
   const {Editor} = await import('./app/editor.js');
   const editor = new Editor(document.body);
@@ -59,6 +65,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
   editor.onUpdate(async (content) => {
     await db.put('settings', content, 'content');
+    await compiler.set(content)
   })
 
   // Set the initial state in the editor
