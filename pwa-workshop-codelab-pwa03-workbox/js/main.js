@@ -14,6 +14,8 @@
  limitations under the License.
  */
 
+import {openDB} from "idb";
+
 // Register the service worker
 if ('serviceWorker' in navigator) {
   // Wait for the 'load' event to not block other work
@@ -41,16 +43,35 @@ if ('serviceWorker' in navigator) {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+  const db = await openDB('settings-store', 1, {
+    upgrade(db) {
+      db.createObjectStore('settings')
+    }
+  })
+
   // Set up the editor
-  const { Editor } = await import('./app/editor.js');
+  const {Editor} = await import('./app/editor.js');
   const editor = new Editor(document.body);
 
   // Set up the menu
-  const { Menu } = await import('./app/menu.js');
+  const {Menu} = await import('./app/menu.js');
   new Menu(document.querySelector('.actions'), editor);
+
+  editor.onUpdate(async (content) => {
+    await db.put('settings', content, 'content');
+  })
 
   // Set the initial state in the editor
   const defaultText = `# Welcome to PWA Edit!\n\nTo leave the editing area, press the \`esc\` key, then \`tab\` or \`shift+tab\`.`;
 
-  editor.setContent(defaultText);
+  editor.setContent((await db.get('settings', 'content')) || defaultText);
+
+  // set up night mode toggle
+  const {NightMode} = await import('./app/night-mode.js');
+  new NightMode(
+    document.querySelector('#mode'),
+    async (mode) => {
+      editor.setTheme(mode);
+    }
+  )
 });
