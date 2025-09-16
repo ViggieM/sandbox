@@ -4,91 +4,44 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-// Ensures that the `$service-worker` import has proper type definitions
-/// <reference types="@sveltejs/kit" />
+import { offlineFallback } from 'workbox-recipes';
+import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
+import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routing';
+import { StaleWhileRevalidate } from 'workbox-strategies';
+import { clientsClaim } from 'workbox-core';
 
-// Only necessary if you have an import from `$env/static/public`
-/// <reference types="../.svelte-kit/ambient.d.ts" />
+declare let self: ServiceWorkerGlobalScope;
 
-import { build, files, version } from '$service-worker';
+/**
+ * Pre-cache assets and pre-rendered routes.
+ * In dev mode, __WB_MANIFEST is undefined and might throw an error, so we default to an empty array.
+ *
+ * References:
+ * - https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
+ * - https://stackoverflow.com/questions/66230023/multiple-instances-of-self-wb-manifest
+ * */
+precacheAndRoute(self.__WB_MANIFEST || []);
 
-// This gives `self` the correct types
-const self = globalThis.self as unknown as ServiceWorkerGlobalScope;
+cleanupOutdatedCaches();
 
-// Create a unique cache name for this deployment
-const CACHE = `cache-${version}`;
-
-const ASSETS = [
-	...build, // the app itself
-	...files  // everything in `static`
-];
-
-self.addEventListener('install', (event) => {
-	// Create a new cache and add all files to it
-	async function addFilesToCache() {
-		const cache = await caches.open(CACHE);
-		await cache.addAll(ASSETS);
-	}
-
-	event.waitUntil(addFilesToCache());
+offlineFallback({
+	pageFallback: '/offline'
 });
 
-self.addEventListener('activate', (event) => {
-	// Remove previous cached data from disk
-	async function deleteOldCaches() {
-		for (const key of await caches.keys()) {
-			if (key !== CACHE) await caches.delete(key);
-		}
+/** Automatically take control over the windows*/
+self.skipWaiting();
+clientsClaim();
+
+/** https://developer.chrome.com/docs/workbox/managing-fallback-responses/ */
+// Use a stale-while-revalidate strategy to handle requests by default.
+setDefaultHandler(new StaleWhileRevalidate());
+
+// This "catch" handler is triggered when any of the other routes fail to
+// generate a response.
+setCatchHandler(async ({ request }) => {
+	switch (request.destination) {
+		default:
+			// If we don't have a fallback, return an error response.
+			return Response.error();
 	}
-
-	event.waitUntil(deleteOldCaches());
-});
-
-self.addEventListener('fetch', (event) => {
-	// ignore POST requests etc
-	if (event.request.method !== 'GET') return;
-
-	async function respond() {
-		const url = new URL(event.request.url);
-		const cache = await caches.open(CACHE);
-
-		// `build`/`files` can always be served from the cache
-		if (ASSETS.includes(url.pathname)) {
-			const response = await cache.match(url.pathname);
-
-			if (response) {
-				return response;
-			}
-		}
-
-		// for everything else, try the network first, but
-		// fall back to the cache if we're offline
-		try {
-			const response = await fetch(event.request);
-
-			// if we're offline, fetch can return a value that is not a Response
-			// instead of throwing - and we can't pass this non-Response to respondWith
-			if (!(response instanceof Response)) {
-				throw new Error('invalid response from fetch');
-			}
-
-			if (response.status === 200) {
-				cache.put(event.request, response.clone());
-			}
-
-			return response;
-		} catch (err) {
-			const response = await cache.match(event.request);
-
-			if (response) {
-				return response;
-			}
-
-			// if there's no cache, then just error out
-			// as there is nothing we can do to respond to this request
-			throw err;
-		}
-	}
-
-	event.respondWith(respond());
 });

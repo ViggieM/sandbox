@@ -24,3 +24,8 @@
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+
+# Local Netlify folder
+.netlify
+
+node_modules/

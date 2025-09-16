@@ -1,0 +1,9 @@
+[build]
+	command = "npm run build"
+	publish = "build"
+
+# https://vite-pwa-org.netlify.app/deployment/netlify.html
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
