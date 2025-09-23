@@ -37,7 +37,21 @@ export default defineConfig({
 > <br>
 > [Getting Started | Guide | Vite PWA](https://vite-pwa-org.netlify.app/guide/#configuring-vite-plugin-pwa)
 
-TODO: You also need to configure svelte.config.js accordingly: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#generate-custom-service-worker
+You will need to exclude the service worker registration from the SvelteKit configuration (the `serviceWorker: { register: false }` part), as described in https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#generate-custom-service-worker
+
+```javascript
+// svelte.config.js
+import adapter from '@sveltejs/adapter-netlify';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	preprocess: vitePreprocess(),
+	kit: { adapter: adapter(), serviceWorker: { register: false } }
+};
+
+export default config;
+```
 
 ## Configure the 'injectManifest' strategy
 
@@ -273,6 +287,7 @@ export default defineConfig(({ command }) => ({
 And add the following code to your `service-worker/index.ts`:
 
 ```typescript
+// service-worker/index.ts
 import { clientsClaim } from 'workbox-core'
 
 self.skipWaiting()
@@ -281,12 +296,50 @@ clientsClaim()
 
 This will have the inconvenient effect that the browser tab will reload, and the user might lose data that he was currently typing in inside a form e.g.
 
-TODO: Prompt for update
+An alternative would be to **prompt the user** to reload the page when an update is found.
 
+```typescript
+import { sveltekit } from '@sveltejs/kit/vite';
+import { SvelteKitPWA } from '@vite-pwa/sveltekit';
+import { defineConfig } from 'vite';
+
+export default defineConfig(({ command }) => ({
+	plugins: [
+		sveltekit(),
+		SvelteKitPWA({
+			// ...
+			registerType: 'prompt'  // default
+      // ...
+		})
+	]
+}));
+```
+
+Make sure to remove the `self.skipWaiting()` and `clientsClaim()` calls inside `service-worker/index.ts`, and you will see that the `onNeedRefresh` callback is called:
+
+```typescript
+// src/routes/registerSW.ts
+
+import { useRegisterSW } from 'virtual:pwa-register/svelte';
+
+const { updateServiceWorker, offlineReady, needRefresh } = useRegisterSW({
+	// ...
+  onNeedRefresh() {
+		console.log(`SW needs refresh`);
+    // call updateServiceWorker() with an event handler triggered e.g. by a button click
+	},
+  // ...
+});
+```
+
+The `useRegisterSW` method returns an object with a `updateServiceWorker` method that can be called later by an event, such as a click event on a button.
+The official guide for the integration of Vite PWA with SvelteKit actually offers a good example on how to implement a `ReloadPrompt.svelte` component: https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#prompt-for-update
 
 ## Navigation preload
 
-https://web.dev/blog/navigation-preload#activate_navigation_preload
+> In some situations, service worker boot-up time can delay a network response.
+> <br>
+> -- [Speed up service worker with navigation preloads  |  Blog  |  web.dev](https://web.dev/blog/navigation-preload#activate_navigation_preload)
 
 
 ## Troubleshooting
