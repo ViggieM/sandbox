@@ -31,3 +31,7 @@
 node_modules/
 .env
 .venv/
+
+# Python
+__pycache__/
+
