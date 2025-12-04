@@ -13,7 +13,7 @@ It takes the suggested implementation of the service worker in the SvelteKit doc
 Source: https://vite-pwa-org.netlify.app/guide/#installing-vite-plugin-pwa
 
 ```bash
-pnpm add -D vite-plugin-pwa
+pnpm add -D vite-plugin-pwa @vite-pwa/sveltekit
 ```
 
 Then configure the plugin in `vite.config.ts`:
@@ -65,6 +65,11 @@ If we take a look at the suggested Service worker implementation in the SvelteKi
 - responds with a cached asset response if available
 
 Workbox handles caching different and simplifies the code.
+
+```bash
+pnpm add workbox-precaching
+```
+
 To cache and serve assets, you can use this code:
 
 ```TypeScript
@@ -121,6 +126,7 @@ To configure the Vite PWA plugin to pick up this service worker, we need to use 
 The configuration would look like this:
 
 ```typescript
+// vite.config.ts
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { defineConfig } from 'vite';
@@ -151,6 +157,15 @@ since during development, `service-worker.js` does not exist, and you will get a
 ```
 ENOENT: no such file or directory, open '/home/victor/code/sandbox/pwa+svelte/src/service-worker.js'
 ```
+
+A similar error is encountered when `workbox-window` is not installed. 
+
+```bash
+pnpm add workbox-window
+```
+
+This leads to the virtual module not being able to initialize, so the service-worker.js file can not be built.
+The errors of the build output can not be seen in the build log, so that might be confusing.
 
 ## Extend the root `+layout.svelte`
 
@@ -210,7 +225,7 @@ useRegisterSW({
 
 In the [Vite PWA documentation for SvelteKit](https://vite-pwa-org.netlify.app/frameworks/sveltekit.html#pwa-assets) it is mentioned that you could programmatically insert the link tags based on the Plugin configuration like this:
 
-```sveltehtml
+```svelte
 <!-- src/routes/+layout.svelte -->
 
 <script lang="ts">
