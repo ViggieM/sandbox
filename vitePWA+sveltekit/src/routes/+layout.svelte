@@ -14,9 +14,8 @@
          * inside a browser context before registering the service worker.
          * Reference: https://vite-pwa-org.netlify.app/guide/auto-update.html#ssr-ssg.
          * */
-        console.log(pwaInfo);
         if (pwaInfo && browser) {
-            await import("./registerSW");
+            // await import("./registerSW");
         }
     });
 </script>
@@ -28,3 +27,7 @@
 </svelte:head>
 
 {@render children()}
+
+{#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
+    <ReloadPrompt />
+{/await}

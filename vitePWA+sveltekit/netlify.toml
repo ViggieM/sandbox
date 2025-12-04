@@ -1,0 +1,29 @@
+# ABOUTME: Netlify deployment configuration for SvelteKit PWA app
+# ABOUTME: Defines build settings and environment for production deployment
+
+[build]
+  command = "pnpm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Headers for PWA and security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Service Worker caching
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Cache static assets
+[[headers]]
+  for = "/_app/immutable/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

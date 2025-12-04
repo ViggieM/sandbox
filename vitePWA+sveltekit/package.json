@@ -6,16 +6,20 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview --port 55555",
+    "preview": "vite build && vite preview --port 55555",
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "deploy": "netlify deploy --prod",
+    "deploy:preview": "netlify deploy"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^7.0.0",
+    "@sveltejs/adapter-netlify": "^5.2.4",
     "@sveltejs/kit": "^2.48.5",
     "@sveltejs/vite-plugin-svelte": "^6.2.1",
     "@vite-pwa/sveltekit": "^1.1.0",
+    "netlify-cli": "^23.12.2",
     "svelte": "^5.43.8",
     "svelte-check": "^4.3.4",
     "typescript": "^5.9.3",
@@ -24,7 +28,13 @@
     "vite-plugin-pwa": "^1.2.0"
   },
   "dependencies": {
+    "workbox-cacheable-response": "^7.4.0",
+    "workbox-core": "^7.4.0",
+    "workbox-expiration": "^7.4.0",
     "workbox-precaching": "^7.4.0",
+    "workbox-recipes": "^7.4.0",
+    "workbox-routing": "^7.4.0",
+    "workbox-strategies": "^7.4.0",
     "workbox-window": "^7.4.0"
   }
 }

@@ -19,12 +19,18 @@ export default defineConfig(({ command }) => ({
   plugins: [
     sveltekit(),
     SvelteKitPWA({
-      registerType: "autoUpdate",
+      registerType: "prompt",
       strategies: "injectManifest",
+      // If you're not using precaching (self.__WB_MANIFEST), you need to disable injection point to avoid compilation errors
+      // https://vite-pwa-org.netlify.app/guide/inject-manifest.html#service-worker-code
+      // injectManifest: {
+      //   injectionPoint: undefined,
+      // },
       srcDir: "src",
       filename:
         command === "serve" ? "service-worker/index.ts" : "service-worker.js",
 
+      // To enable the service worker on development, you only need to add the following options to the plugin configuration:
       // https://vite-pwa-org.netlify.app/guide/development.html#plugin-configuration
       devOptions: {
         enabled: true,
