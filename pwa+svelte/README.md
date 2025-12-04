@@ -154,7 +154,7 @@ ENOENT: no such file or directory, open '/home/victor/code/sandbox/pwa+svelte/sr
 
 ## Extend the root `+layout.svelte`
 
-```sveltehtml
+```svelte
 <!-- src/routes/+layout.svelte -->
 
 <script lang="ts">
@@ -399,9 +399,7 @@ auto-install-peers=true
 shamefully-hoist=true
 ```
 
-## Misc
-
-### skipWaiting from 'workbox-core' is deprecated
+### WARNING: skipWaiting from 'workbox-core' is deprecated
 
 Source: https://developer.chrome.com/docs/workbox/modules/workbox-core#the_skipwaiting_wrapper_is_deprecated
 
