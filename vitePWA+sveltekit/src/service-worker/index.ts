@@ -1,33 +1,9 @@
 /// <reference lib="webworker" />
 
-import { offlineFallback, warmStrategyCache } from "workbox-recipes";
-import {
-  precacheAndRoute,
-  cleanupOutdatedCaches,
-  addRoute,
-} from "workbox-precaching";
-import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
-import { registerRoute } from "workbox-routing";
-import { CacheableResponsePlugin } from "workbox-cacheable-response";
-import { ExpirationPlugin } from "workbox-expiration";
-import { clientsClaim, type RouteHandler } from "workbox-core";
+import { precacheAndRoute, cleanupOutdatedCaches } from "workbox-precaching";
+import { clientsClaim } from "workbox-core";
 
 declare let self: ServiceWorkerGlobalScope;
-
-const matchCb = ({ url, request, event }) => {
-  return url.pathname === "/dynamic";
-};
-
-const handlerCb: RouteHandler = async ({ url, request, event, params }) => {
-  console.log("handlerCb", url);
-  const response = await fetch(request);
-  const responseBody = await response.text();
-  return new Response(`${responseBody}`, {
-    headers: response.headers,
-  });
-};
-
-registerRoute(matchCb, handlerCb);
 
 // this makes sure all other assets are saved for offline use
 cleanupOutdatedCaches();
