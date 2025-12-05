@@ -11,6 +11,9 @@ importers:
       dexie:
         specifier: ^4.2.1
         version: 4.2.1
+      workbox-background-sync:
+        specifier: ^7.4.0
+        version: 7.4.0
       workbox-cacheable-response:
         specifier: ^7.4.0
         version: 7.4.0

@@ -129,8 +129,8 @@ export const OPTIONS: RequestHandler = async () => {
   });
 };
 
-export const GET: RequestHandler = async ({ url }) => {
-  const targetUrl = url.searchParams.get("url");
+export const POST: RequestHandler = async ({ request }) => {
+  const { id: bookmarkId, url: targetUrl } = await request.json();
 
   if (!targetUrl) {
     return error(400, "URL parameter is required");
@@ -195,6 +195,7 @@ export const GET: RequestHandler = async ({ url }) => {
     }
 
     const metadata = extractMetadata(html, targetUrl);
+    metadata.bookmarkId = bookmarkId;
 
     return json(metadata, {
       headers: {

@@ -8,11 +8,11 @@
         evt.preventDefault();
         const formData = new FormData(evt.currentTarget);
         const url = formData.get("url") as string;
-        const id = await db.queue.add({ url });
-        console.log(`New Queue id ${id}`);
+        const id = await db.bookmarks.add({ url });
         form.reset();
-        const metadata = await fetchUrlMetadata(url);
-        console.log(metadata);
+
+        // no need to await, this is handled by the service worker
+        fetchUrlMetadata(id, url);
     }
 </script>
 

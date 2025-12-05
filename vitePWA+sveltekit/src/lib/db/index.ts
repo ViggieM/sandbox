@@ -4,16 +4,11 @@ type Bookmark = {
   id: string;
   url: string;
   title?: string;
-};
-
-type QuedBookmark = {
-  id: string;
-  url: string;
+  meta?: object;
 };
 
 class Database extends Dexie {
   bookmarks!: EntityTable<Bookmark, "id">;
-  queue!: EntityTable<QuedBookmark, "id">;
 
   constructor() {
     super("BookmarksDB");
@@ -22,7 +17,6 @@ class Database extends Dexie {
 
 export const db = new Database();
 
-db.version(1).stores({
+db.version(2).stores({
   bookmarks: "++id",
-  queue: "++id",
 });
