@@ -1,5 +1,6 @@
 <script lang="ts">
     import { db } from "$lib/db";
+    import { fetchUrlMetadata } from "$lib/utils/medatata";
     let form: HTMLFormElement;
     async function handleSubmit(
         evt: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement },
@@ -10,6 +11,8 @@
         const id = await db.queue.add({ url });
         console.log(`New Queue id ${id}`);
         form.reset();
+        const metadata = await fetchUrlMetadata(url);
+        console.log(metadata);
     }
 </script>
 
